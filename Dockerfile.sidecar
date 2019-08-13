@@ -1,5 +1,8 @@
 FROM alpine
 
+ADD start.sh /
+ADD restart.sh /
+
 ADD /sidecar /
 
-ENTRYPOINT /bin/sh -c /sidecar.sh
+ENTRYPOINT ["/start.sh", "/ingest_logs.sh"]

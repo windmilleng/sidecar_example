@@ -27,7 +27,7 @@ def setup():
 if __name__ == '__main__':
     setup()
 
-    with open('/home/randword/logs/out.txt', 'a') as outfile:
+    with open('/var/log/randword.log', 'a') as outfile:
         while True:
             outfile.write(pick_word() + os.linesep)
 

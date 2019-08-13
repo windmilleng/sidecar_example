@@ -21,15 +21,15 @@ spec:
               cpu: "10m"
           volumeMounts:
           - name: shared-logs
-            mountPath: /home/randword/logs
-        - name: sidecar
-          image: sidecar
+            mountPath: /var/log
+        - name: log-ingester
+          image: log-ingester
           resources:
             requests:
               cpu: "10m"
           volumeMounts:
             - name: shared-logs
-              mountPath: /usr/share/logs
+              mountPath: /var/log
       volumes:
         - name: shared-logs
           emptyDir: {}

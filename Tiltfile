@@ -1,12 +1,18 @@
 # -*- mode: Python -*-
 
-# If you get push errors, you can change the default_registry.
-# Create tilt_option.json with contents: {"default_registry": "gcr.io/my-personal-project"}
-# (with your registry inserted). tilt_option.json is gitignore'd, unlike Tiltfile
-default_registry(read_json('tilt_option.json', {})
-                 .get('default_registry', 'gcr.io/windmill-public-containers/servantes'))
+# If you get push errors, uncomment the line below and change the default registry to
+# one to which you have push access
+# default_registry('gcr.io/my-org/tilt-demo')
 
 k8s_yaml('deploy.yaml')
 
-docker_build('randword', '.', dockerfile='Dockerfile.app', live_update=[sync('./app', '/app')])
-docker_build('sidecar', '.', dockerfile='Dockerfile.sidecar', live_update=[sync('./sidecar', '/')])
+docker_build('randword', '.', dockerfile='Dockerfile.app',
+             live_update=[
+                 sync('./app', '/app'),
+                 run('/restart.sh'),
+             ])
+docker_build('log-ingester', '.', dockerfile='Dockerfile.sidecar',
+             live_update=[
+                 sync('./sidecar', '/'),
+                 run('/restart.sh'),
+             ])
